@@ -1,26 +1,78 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: Newsreader;
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url("/fonts/Newsreader-VariableFont_opsz,wght.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: Newsreader;
+  font-style: italic;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url("/fonts/Newsreader-Italic-VariableFont_opsz,wght.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url("/fonts/Poppins-Light.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: Poppins;
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/Poppins-Regular.ttf") format("truetype");
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f7f4ef;
+  --foreground: #1a1a18;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-cream: #f7f4ef;
+  --color-ink: #1a1a18;
+  --color-muted: #6b6b67;
+  --color-forest: #2d3e2f;
+  --color-border: #e3ded6;
+  --color-nav-menu: #f9f7ef;
+  --color-sage: #81917d;
+  --font-sans: "Poppins", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Newsreader", ui-serif, Georgia, serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+}
+
+@layer utilities {
+  .nav-link-underline {
+    @apply relative pb-0.5;
+  }
+
+  .nav-link-underline::after {
+    content: "";
+    @apply pointer-events-none absolute bottom-0 left-0 h-px w-full origin-left scale-x-0 transition-transform duration-300 ease-out;
+    background-color: var(--color-sage);
+  }
+
+  .nav-link-underline:hover::after {
+    @apply scale-x-100;
+  }
 }
