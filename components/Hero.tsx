@@ -24,7 +24,7 @@ export function Hero() {
       className="relative bg-cream pb-12 pt-0 md:pb-16"
       aria-labelledby="hero-heading"
     >
-      <div className="relative w-full max-md:pb-[26rem]">
+      <div className="relative w-full ">
         <svg
           className="pointer-events-none absolute h-0 w-0 overflow-hidden"
           aria-hidden
@@ -56,16 +56,13 @@ export function Hero() {
           />
         </div>
 
-        <motion.div
+        <div
           className={[
-            "absolute z-10 h-auto max-w-[min(var(--hero-card-w-max),calc(100vw-1.5rem))]",
-            "w-[calc(100%-2rem)]",
-            "max-md:min-[668px]:w-[min(var(--hero-card-w-max),max(18.75rem,calc(100vw*444/1140),calc(100vw-2rem)))]",
-            "left-1/2 top-[6.25rem] -translate-x-1/2",
+            "absolute z-10 inset-x-0 top-[6.25rem]",
+            "md:inset-x-auto md:block md:w-auto",
             "md:left-[min(var(--hero-card-left-max),calc(100vw*140/1140))]",
+            "md:right-auto",
             "md:top-[min(var(--hero-card-top-max),calc(100vh*240/1024))]",
-            "md:w-[min(var(--hero-card-w-max),max(18.75rem,calc(100vw*444/1140),calc(100vw-2rem)))]",
-            "md:translate-x-0 md:box-border",
           ].join(" ")}
           style={
             {
@@ -74,10 +71,23 @@ export function Hero() {
               "--hero-card-top-max": heroCardRem.top,
             } as CSSProperties
           }
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.65, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
         >
+          <motion.div
+            className={[
+              "mx-auto box-border h-auto max-w-[min(var(--hero-card-w-max),calc(100%-1.5rem))]",
+              "w-[calc(100%-2rem)]",
+              "max-md:min-[668px]:w-[min(var(--hero-card-w-max),max(18.75rem,calc((100%*444)/1140),calc(100%-2rem)))]",
+              "md:mx-0",
+              "md:w-[min(var(--hero-card-w-max),max(18.75rem,calc(100vw*444/1140),calc(100vw-2rem)))]",
+            ].join(" ")}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: 0.65,
+              delay: 0.4,
+              ease: [0.22, 1, 0.36, 1],
+            }}
+          >
           <div className="flex flex-col overflow-x-hidden bg-white px-6 py-8 shadow-[0_24px_48px_-24px_rgba(26,26,24,0.18)] box-border md:px-10 md:py-10">
             <h1
               id="hero-heading"
@@ -112,7 +122,8 @@ export function Hero() {
               </Link>
             </div>
           </div>
-        </motion.div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );
