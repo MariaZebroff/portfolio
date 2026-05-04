@@ -14,7 +14,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="h-full scroll-smooth antialiased">
-      <body className="min-h-full bg-cream font-sans text-ink">{children}</body>
+      <body className="min-h-full bg-white font-sans text-ink">{children}</body>
     </html>
   );
 }
