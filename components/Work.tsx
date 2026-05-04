@@ -159,8 +159,34 @@ export function Work() {
           }}
         >
           <div className="relative isolate min-h-0 overflow-visible bg-white pb-[6.25rem]">
+            {/* Mobile: cream band fills transparent gap above transformed path; path transform per design */}
             <svg
-              className="pointer-events-none absolute inset-0 z-0 h-full w-full min-w-full -translate-y-[clamp(0.75rem,2.5vw,2rem)] md:-translate-y-[calc(9.375rem+clamp(3rem,9vw,5.5rem))]"
+              className="pointer-events-none absolute inset-0 z-0 block h-full w-full min-w-full -translate-y-[clamp(0.75rem,2.5vw,2rem)] md:hidden"
+              viewBox="0 0 1440 764"
+              preserveAspectRatio="none"
+              aria-hidden
+            >
+              <rect
+                x="0"
+                y="0"
+                width="1440"
+                height="520"
+                fill="#f7f4ef"
+              />
+              <g transform="translate(0,-8)">
+                <g transform="translate(1440,0) scale(-1,1)">
+                  <g transform="translate(720,680) scale(1,0.5) translate(-720,-720)">
+                    <path
+                      d={workSecondProjectUpperCreamPath}
+                      fill="#f7f4ef"
+                      shapeRendering="geometricPrecision"
+                    />
+                  </g>
+                </g>
+              </g>
+            </svg>
+            <svg
+              className="pointer-events-none absolute inset-0 z-0 hidden h-full w-full min-w-full md:block md:-translate-y-[calc(9.375rem+clamp(3rem,9vw,5.5rem))]"
               viewBox="0 0 1440 764"
               preserveAspectRatio="none"
               aria-hidden
