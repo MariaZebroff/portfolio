@@ -88,7 +88,7 @@ export function Contact() {
               <div className="pt-2">
                 <button
                   type="submit"
-                  className="inline-flex min-h-[2.75rem] items-center justify-center bg-sage px-8 py-2 font-sans text-[0.875rem] font-normal uppercase tracking-[0.16em] text-[#F9F7EF] transition-[background-color,opacity] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-[#6f7d6a] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#3D473B]"
+                  className="inline-flex min-h-[2.75rem] cursor-pointer items-center justify-center bg-sage px-8 py-2 font-sans text-[0.875rem] font-normal uppercase tracking-[0.16em] text-[#F9F7EF] transition-[background-color,opacity] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-[#6f7d6a] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#3D473B]"
                 >
                   {form.submitLabel}
                 </button>
