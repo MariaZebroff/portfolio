@@ -11,7 +11,7 @@ export default function Home() {
         <Hero />
         <div
           aria-hidden
-          className="box-border h-[9rem] w-full border-b border-[#707070]/20 bg-cream md:h-[4.375rem]"
+          className="box-border h-[9rem] w-full border-b border-[#707070]/20 bg-cream md:h-[7.375rem]"
         />
         <About />
         <Work />

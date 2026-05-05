@@ -9,12 +9,13 @@ export type WorkProject = {
     height: number;
   };
   description: string;
-  link: {
+  /** Omit or set `null` to hide the visit link row. */
+  link?: {
     label: string;
     href: string;
     iconSrc: string;
     iconAlt: string;
-  };
+  } | null;
 };
 
 export const workContent = {
@@ -24,6 +25,11 @@ export const workContent = {
   leftIntro: {
     label: "- Independent Work",
     text: "Projects I've carried from first conversation to final launch.",
+  },
+  professionalIntro: {
+    label: "- Professional Experience",
+    text:
+      "Selected work from my time at NGX Creative and Sproing Creative, where I contributed as a front-end developer on cross-functional teams.",
   },
   projects: [
     {
@@ -60,6 +66,38 @@ export const workContent = {
       link: {
         label: "VIZIT WEBSITE",
         href: "#work",
+        iconSrc: "/images/Arrow.svg",
+        iconAlt: "",
+      },
+    },
+    {
+      id: "seaworld-abu-dhabi",
+      number: "03",
+      title: "Sea World - Abu Dhabi, UAE",
+      image: {
+        src: "/images/seaworld-project.png",
+        alt: "SeaWorld Abu Dhabi immersive digital exhibit",
+        width: 565,
+        height: 496,
+      },
+      description:
+        "Contributed to a cross-functional team delivering an interactive exhibit management system for SeaWorld Abu Dhabi. Hands-on across the full cycle — prototyping, development, QA, and post-launch support — working with advanced WordPress, PHP, WebSockets, and custom server architecture.",
+    },
+    {
+      id: "ubc-footprints-in-time",
+      number: "04",
+      title: "UBC - Vancouver, CA",
+      image: {
+        src: "/images/UBC-project.png",
+        alt: "UBC Footprints in Time interactive exhibit",
+        width: 565,
+        height: 496,
+      },
+      description:
+        "Not every project starts at the beginning — and this one was already in motion when I joined the team. Working on UBC's Footprints in Time interactive exhibit, I picked up an existing codebase and helped bring it across the finish line. The work included panoramic views, 3D JavaScript interactions, and a strong focus on accessibility — making sure the experience worked beautifully for every visitor, including those using screen readers and assistive technologies.",
+      link: {
+        label: "VIZIT WEBSITE",
+        href: "https://footprintsintime.ca/",
         iconSrc: "/images/Arrow.svg",
         iconAlt: "",
       },

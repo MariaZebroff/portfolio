@@ -35,6 +35,9 @@
 :root {
   --background: #f7f4ef;
   --foreground: #1a1a18;
+  /* Shared stops: cream → white (used on body + Work wave row so the blend stays consistent). */
+  --gradient-cream-end-pct: 40%;
+  --gradient-white-start-pct: 62%;
 }
 
 @theme inline {
@@ -53,12 +56,25 @@
 
 html {
   scroll-behavior: smooth;
+  min-height: 100%;
+  background-color: #ffffff;
 }
 
 body {
-  background: var(--background);
+  min-height: 100%;
   color: var(--foreground);
   font-family: var(--font-sans);
+  background-color: #ffffff;
+  background-image: linear-gradient(
+    180deg,
+    var(--color-cream) 0%,
+    var(--color-cream) var(--gradient-cream-end-pct),
+    #ffffff var(--gradient-white-start-pct),
+    #ffffff 100%
+  );
+  background-attachment: fixed;
+  background-size: 100% 100dvh;
+  background-repeat: no-repeat;
 }
 
 @layer utilities {
