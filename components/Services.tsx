@@ -29,7 +29,7 @@ export function Services() {
           >
             {kicker}
           </h2>
-          <p className="mx-auto mt-[1rem] max-w-3xl font-serif text-[24px] font-medium italic leading-[2rem] tracking-[2%] text-[#707070] md:mt-[1.25rem]">
+          <p className="mx-auto mt-[1rem] max-w-3xl font-serif text-[24px] font-medium italic leading-[2rem] tracking-[2%] text-white md:mt-[1.25rem]">
             {subheading}
           </p>
         </motion.header>
