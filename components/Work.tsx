@@ -125,7 +125,7 @@ export function Work() {
   return (
     <section
       id="work"
-      className={`relative box-border border-b border-[#707070]/20 bg-cream px-4 pt-[6.25rem] md:px-8 md:pt-[6.25rem] lg:px-10 ${secondProject ? "pb-0" : "pb-[6.25rem]"}`}
+      className={`scroll-mt-[3.75rem] relative box-border border-b border-[#707070]/20 bg-cream px-4 pt-[6.25rem] md:px-8 md:pt-[6.25rem] lg:px-10 ${secondProject ? "pb-0" : "pb-[6.25rem]"}`}
       aria-labelledby="work-heading"
     >
       <div className="relative z-20 mx-auto max-w-7xl">
@@ -239,15 +239,15 @@ export function Work() {
             </div>
           </motion.article>
 
-          <div className="relative left-1/2 z-20 w-screen max-w-none -translate-x-1/2 bg-white px-4 pt-[1.5rem] pb-[6.25rem] md:px-8 md:pt-[1.5rem] lg:px-10">
-            <div className="mx-auto max-w-7xl">
+          <div className="relative left-1/2 z-20 w-screen max-w-none -translate-x-1/2 bg-white pt-[1.5rem] pb-[6.25rem] md:pt-[1.5rem]">
+            {/* Same max-w-7xl + inner padding as second project so columns line up on large screens */}
+            <div className="mx-auto max-w-7xl px-4 md:px-8 lg:px-10">
               <WorkIntroAside
                 label={professionalIntro.label}
                 text={professionalIntro.text}
                 className="mb-[2.5rem] w-full md:mb-[5rem]"
                 delay={0.05}
               />
-            </div>
 
             {restProjects.length > 1
               ? restProjects.slice(1).map((project, sliceIndex) => {
@@ -255,7 +255,7 @@ export function Work() {
                   return (
                     <div
                       key={project.id}
-                      className={`mx-auto w-full max-w-7xl ${sliceIndex > 0 ? "mt-[3.75rem] md:mt-[5rem]" : ""}`}
+                      className={`w-full ${sliceIndex > 0 ? "mt-[3.75rem] md:mt-[5rem]" : ""}`}
                     >
                       <motion.article
                         className="w-full"
@@ -277,6 +277,7 @@ export function Work() {
                   );
                 })
               : null}
+            </div>
           </div>
         </>
       ) : restProjects.length > 1 ? (

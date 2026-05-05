@@ -7,11 +7,11 @@ export const heroContent = {
     "Front-end developer based in Vernon, BC. Clean, professional websites for small businesses.",
   primaryCta: {
     label: "View my work",
-    href: "#work",
+    href: "/#work",
   },
   secondaryCta: {
     label: "Let's talk",
-    href: "#contact",
+    href: "/#contact",
   },
   image: {
     src: "/images/hero.png",

@@ -10,7 +10,7 @@ export function About() {
   return (
     <section
       id="about"
-      className="box-border border-b border-[#707070]/20 bg-cream px-4 py-[6.25rem] md:px-8 lg:px-10"
+      className="scroll-mt-[3.75rem] box-border border-b border-[#707070]/20 bg-cream px-4 py-[6.25rem] md:px-8 lg:px-10"
       aria-labelledby="about-lead"
     >
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 min-[1050px]:grid-cols-2 min-[1050px]:items-start min-[1050px]:gap-x-12 min-[1050px]:gap-y-10 lg:gap-x-16 lg:gap-y-12">

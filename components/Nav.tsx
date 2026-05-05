@@ -45,7 +45,7 @@ export function Nav() {
         aria-label="Primary"
       >
         <Link
-          href="#hero"
+          href="/#hero"
           className="relative flex h-full max-w-[min(100%,12.5rem)] shrink-0 items-center leading-none"
           onClick={() => setMenuOpen(false)}
         >

@@ -3,11 +3,12 @@ export type NavLink = {
   href: string;
 };
 
+/** Use `/#…` so in-page anchors resolve on `/` with the sticky nav. */
 export const navLinks: NavLink[] = [
-  { label: "About", href: "#about" },
-  { label: "Projects", href: "#work" },
-  { label: "Services", href: "#services" },
-  { label: "Contact", href: "#contact" },
+  { label: "About", href: "/#about" },
+  { label: "Projects", href: "/#work" },
+  { label: "Services", href: "/#services" },
+  { label: "Contact", href: "/#contact" },
 ];
 
 export const siteLogo = {

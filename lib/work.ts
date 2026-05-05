@@ -65,7 +65,7 @@ export const workContent = {
         "Designed and developed a full custom WordPress website for an independent beauty stylist in Vernon, BC. Built a unique theme from scratch using Bootstrap, with Advanced Custom Fields for easy content management and custom JavaScript for an elevated user experience.",
       link: {
         label: "VIZIT WEBSITE",
-        href: "#work",
+        href: "https://beautyyou.ca/",
         iconSrc: "/images/Arrow.svg",
         iconAlt: "",
       },

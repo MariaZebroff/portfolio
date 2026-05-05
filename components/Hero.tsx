@@ -21,7 +21,7 @@ export function Hero() {
   return (
     <section
       id="hero"
-      className="relative bg-cream pb-12 pt-0 md:pb-16"
+      className="scroll-mt-[3.75rem] relative bg-cream pb-12 pt-0 md:pb-16"
       aria-labelledby="hero-heading"
     >
       <div className="relative w-full ">
