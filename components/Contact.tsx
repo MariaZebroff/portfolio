@@ -16,7 +16,7 @@ export function Contact() {
     <section
       id="contact"
       aria-labelledby="contact-heading"
-      className="scroll-mt-[3.75rem] box-border border-b border-[#707070]/20 bg-cream px-4 py-[6.25rem] md:px-8 md:py-[6.25rem] lg:px-10"
+      className="scroll-mt-[3.75rem] box-border bg-white px-4 py-[6.25rem] md:px-8 md:py-[6.25rem] lg:px-10"
     >
       <div className="mx-auto max-w-7xl">
         <motion.header

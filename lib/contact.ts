@@ -18,7 +18,7 @@ export const contactContent = {
   form: {
     nameLabel: "Name",
     emailLabel: "Email",
-    messageLabel: "Message",
+    messageLabel: "Tell me about your project",
     submitLabel: "Send message",
   },
 };
