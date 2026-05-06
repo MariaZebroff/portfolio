@@ -1,5 +1,7 @@
 import { Resend } from "resend";
 import { NextResponse } from "next/server";
+import { contactContent } from "@/lib/contact";
+import { validateContactFields } from "@/lib/contact-validation";
 
 export const runtime = "nodejs";
 
@@ -25,10 +27,6 @@ function isAllowedOrigin(origin: string | null): boolean {
       .filter(Boolean),
   );
   return allowed.has(origin);
-}
-
-function isValidEmail(email: string): boolean {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) && email.length <= 254;
 }
 
 async function verifyTurnstile(token: string, remoteip?: string): Promise<boolean> {
@@ -77,23 +75,34 @@ export async function POST(req: Request) {
     return NextResponse.json(OK_BODY);
   }
 
-  const name = typeof json.name === "string" ? json.name.trim() : "";
-  const email = typeof json.email === "string" ? json.email.trim() : "";
-  const message = typeof json.message === "string" ? json.message.trim() : "";
+  const name = typeof json.name === "string" ? json.name : "";
+  const email = typeof json.email === "string" ? json.email : "";
+  const message = typeof json.message === "string" ? json.message : "";
   const token =
     typeof json.turnstileToken === "string" ? json.turnstileToken.trim() : "";
 
-  if (
-    name.length < 2 ||
-    name.length > 120 ||
-    !email ||
-    !isValidEmail(email) ||
-    message.length < 3 ||
-    message.length > 8000 ||
-    !token
-  ) {
+  const validated = validateContactFields({ name, email, message });
+  if (!validated.ok) {
     return NextResponse.json(
-      { ok: false, error: "Please check your entries." },
+      {
+        ok: false,
+        error: contactContent.form.validationSummary,
+        fields: validated.fields,
+      },
+      { status: 400 },
+    );
+  }
+
+  const trimmedName = name.trim();
+  const trimmedEmail = email.trim();
+  const trimmedMessage = message.trim();
+
+  if (!token) {
+    return NextResponse.json(
+      {
+        ok: false,
+        error: contactContent.form.verificationNeeded,
+      },
       { status: 400 },
     );
   }
@@ -126,10 +135,10 @@ export async function POST(req: Request) {
   const { error } = await resend.emails.send({
     from,
     to: [to],
-    replyTo: email,
-    subject: `Website inquiry from ${name}`,
-    text: `${name} <${email}>\n\n${message}`,
-    html: `<p><strong>${escapeHtml(name)}</strong> &lt;${escapeHtml(email)}&gt;</p><pre style="white-space:pre-wrap;font-family:system-ui,sans-serif">${escapeHtml(message)}</pre>`,
+    replyTo: trimmedEmail,
+    subject: `Website inquiry from ${trimmedName}`,
+    text: `${trimmedName} <${trimmedEmail}>\n\n${trimmedMessage}`,
+    html: `<p><strong>${escapeHtml(trimmedName)}</strong> &lt;${escapeHtml(trimmedEmail)}&gt;</p><pre style="white-space:pre-wrap;font-family:system-ui,sans-serif">${escapeHtml(trimmedMessage)}</pre>`,
   });
 
   if (error) {

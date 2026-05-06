@@ -4,6 +4,11 @@ import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 import { motion } from "framer-motion";
 import { useCallback, useRef, useState } from "react";
 import { contactContent } from "@/lib/contact";
+import {
+  type ContactFieldErrors,
+  type ContactFieldName,
+  validateContactFields,
+} from "@/lib/contact-validation";
 
 const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? "";
 
@@ -13,16 +18,37 @@ const fieldClass =
 const labelClass =
   "mb-1 block font-sans text-[0.75rem] font-normal uppercase tracking-[0.16em] text-[#81917D]";
 
-type FormStatus =
-  | { kind: "idle" }
-  | { kind: "loading" }
-  | { kind: "success" }
-  | { kind: "error"; message: string };
+const fieldErrorClass =
+  "mt-1.5 font-sans text-[0.8125rem] leading-snug text-[#8b4049]";
+
+type FormStatus = "idle" | "loading" | "success";
+
+type ContactApiPayload = {
+  ok?: boolean;
+  error?: string;
+  fields?: ContactFieldErrors;
+};
 
 export function Contact() {
   const { heading, subheading, aside, form } = contactContent;
   const turnstileRef = useRef<TurnstileInstance | null>(null);
-  const [status, setStatus] = useState<FormStatus>({ kind: "idle" });
+  const [status, setStatus] = useState<FormStatus>("idle");
+  const [bannerError, setBannerError] = useState<string | null>(null);
+  const [fieldErrors, setFieldErrors] = useState<ContactFieldErrors>({});
+
+  const clearFieldError = useCallback((field: ContactFieldName) => {
+    setFieldErrors((prev) => {
+      if (!prev[field]) return prev;
+      const next = { ...prev };
+      delete next[field];
+      return next;
+    });
+  }, []);
+
+  const resetFeedback = useCallback(() => {
+    setBannerError(null);
+    setFieldErrors({});
+  }, []);
 
   const handleSubmit = useCallback(
     async (e: React.FormEvent<HTMLFormElement>) => {
@@ -30,75 +56,103 @@ export function Contact() {
       const formEl = e.currentTarget;
       const fd = new FormData(formEl);
 
+      resetFeedback();
+
       const honeypot = String(fd.get("company_website") ?? "").trim();
       if (honeypot.length > 0) {
-        setStatus({ kind: "success" });
+        setStatus("success");
         formEl.reset();
         turnstileRef.current?.reset();
         return;
       }
 
-      const token = turnstileRef.current?.getResponse();
-      if (!token) {
-        setStatus({
-          kind: "error",
-          message: form.verificationNeeded,
-        });
+      const name = String(fd.get("name") ?? "");
+      const email = String(fd.get("email") ?? "");
+      const message = String(fd.get("message") ?? "");
+
+      const clientValidation = validateContactFields({ name, email, message });
+      if (!clientValidation.ok) {
+        setFieldErrors(clientValidation.fields);
+        setBannerError(form.validationSummary);
         return;
       }
 
-      setStatus({ kind: "loading" });
+      const token = turnstileRef.current?.getResponse();
+      if (!token) {
+        setBannerError(form.verificationNeeded);
+        return;
+      }
+
+      setStatus("loading");
 
       try {
         const res = await fetch("/api/contact", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            name: String(fd.get("name") ?? "").trim(),
-            email: String(fd.get("email") ?? "").trim(),
-            message: String(fd.get("message") ?? "").trim(),
+            name: name.trim(),
+            email: email.trim(),
+            message: message.trim(),
             turnstileToken: token,
           }),
         });
 
-        let payload: { ok?: boolean; error?: string } = {};
+        let payload: ContactApiPayload = {};
         try {
-          payload = (await res.json()) as typeof payload;
+          payload = (await res.json()) as ContactApiPayload;
         } catch {
           payload = {};
         }
 
         if (res.status === 403) {
-          setStatus({ kind: "error", message: form.errorGeneric });
+          setBannerError(form.errorGeneric);
+          setStatus("idle");
           turnstileRef.current?.reset();
           return;
         }
 
         if (!res.ok || !payload.ok) {
-          setStatus({
-            kind: "error",
-            message:
-              typeof payload.error === "string"
-                ? payload.error
-                : form.errorGeneric,
-          });
+          const apiFields =
+            payload.fields &&
+            typeof payload.fields === "object" &&
+            !Array.isArray(payload.fields)
+              ? payload.fields
+              : {};
+          setFieldErrors(apiFields);
+          setBannerError(
+            typeof payload.error === "string"
+              ? payload.error
+              : form.errorGeneric,
+          );
+          setStatus("idle");
           turnstileRef.current?.reset();
           return;
         }
 
-        setStatus({ kind: "success" });
+        setStatus("success");
         formEl.reset();
         turnstileRef.current?.reset();
       } catch {
-        setStatus({ kind: "error", message: form.errorGeneric });
+        setBannerError(form.errorGeneric);
+        setStatus("idle");
         turnstileRef.current?.reset();
       }
     },
-    [form.errorGeneric, form.verificationNeeded],
+    [
+      form.errorGeneric,
+      form.validationSummary,
+      form.verificationNeeded,
+      resetFeedback,
+    ],
   );
 
-  const disabled =
-    status.kind === "loading" || !turnstileSiteKey;
+  const disabled = status === "loading" || !turnstileSiteKey;
+
+  const handleSendAnother = useCallback(() => {
+    setStatus("idle");
+    resetFeedback();
+    turnstileRef.current?.reset();
+  }, [resetFeedback]);
 
   return (
     <section
@@ -126,7 +180,7 @@ export function Contact() {
         </motion.header>
 
         <div className="grid grid-cols-1 gap-10 min-[900px]:grid-cols-2 min-[900px]:items-start min-[900px]:gap-x-12 lg:gap-x-16">
-          <motion.form
+          <motion.div
             className="relative w-full max-w-xl min-[900px]:max-w-none"
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -136,117 +190,166 @@ export function Contact() {
               delay: 0.05,
               ease: [0.22, 1, 0.36, 1],
             }}
-            onSubmit={handleSubmit}
           >
-            <div
-              className="pointer-events-none absolute -left-[9999px] top-0 h-px w-px overflow-hidden opacity-0"
-              aria-hidden="true"
-            >
-              <label htmlFor="contact-company-website">Company website</label>
-              <input
-                id="contact-company-website"
-                name="company_website"
-                type="text"
-                tabIndex={-1}
-                autoComplete="off"
-                autoCorrect="off"
-                autoCapitalize="off"
-                spellCheck={false}
-                defaultValue=""
-              />
-            </div>
-
-            <div className="flex flex-col gap-8">
-              <div>
-                <label htmlFor="contact-name" className={labelClass}>
-                  {form.nameLabel}
-                </label>
-                <input
-                  id="contact-name"
-                  name="name"
-                  type="text"
-                  required
-                  minLength={2}
-                  maxLength={120}
-                  autoComplete="name"
-                  className={fieldClass}
-                  placeholder=" "
-                  disabled={disabled}
-                />
-              </div>
-              <div>
-                <label htmlFor="contact-email" className={labelClass}>
-                  {form.emailLabel}
-                </label>
-                <input
-                  id="contact-email"
-                  name="email"
-                  type="email"
-                  required
-                  maxLength={254}
-                  autoComplete="email"
-                  className={fieldClass}
-                  placeholder=" "
-                  disabled={disabled}
-                />
-              </div>
-              <div>
-                <label htmlFor="contact-message" className={labelClass}>
-                  {form.messageLabel}
-                </label>
-                <textarea
-                  id="contact-message"
-                  name="message"
-                  rows={5}
-                  required
-                  minLength={3}
-                  maxLength={8000}
-                  className={`${fieldClass} resize-y min-h-[7.5rem]`}
-                  placeholder=" "
-                  disabled={disabled}
-                />
-              </div>
-
-              {!turnstileSiteKey ? (
-                <p className="font-sans text-[0.875rem] text-[#707070]">
-                  {form.configMissing}
+            {status === "success" ? (
+              <div
+                role="status"
+                className="rounded-sm border border-[#81917D]/35 bg-[#f7f4ef]/80 px-6 py-8 md:px-8 md:py-10"
+              >
+                <p className="font-sans text-[1rem] font-normal leading-relaxed tracking-[0.02em] text-[#343434]">
+                  {form.successMessage}
                 </p>
-              ) : (
-                <Turnstile
-                  ref={turnstileRef}
-                  siteKey={turnstileSiteKey}
-                  options={{
-                    theme: "light",
-                    size: "flexible",
-                  }}
-                  onExpire={() => turnstileRef.current?.reset()}
-                />
-              )}
-
-              <div className="pt-2">
                 <button
-                  type="submit"
-                  disabled={disabled}
-                  className="inline-flex min-h-[2.75rem] cursor-pointer items-center justify-center bg-sage px-8 py-2 font-sans text-[0.875rem] font-normal uppercase tracking-[0.16em] text-[#F9F7EF] transition-[background-color,opacity] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-[#6f7d6a] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#3D473B] disabled:cursor-not-allowed disabled:opacity-60"
+                  type="button"
+                  onClick={handleSendAnother}
+                  className="mt-6 font-sans text-[0.875rem] font-normal uppercase tracking-[0.16em] text-[#81917D] underline decoration-[#81917D]/40 underline-offset-4 transition-colors hover:decoration-[#81917D]"
                 >
-                  {status.kind === "loading"
-                    ? form.submittingLabel
-                    : form.submitLabel}
+                  {form.sendAnotherLabel}
                 </button>
               </div>
-
-              <div aria-live="polite" className="min-h-[1.5rem] font-sans text-[0.875rem]">
-                {status.kind === "success" ? (
-                  <p className="text-[#3D473B]">{form.successMessage}</p>
-                ) : null}
-                {status.kind === "error" ? (
-                  <p className="text-[#8b4049]" role="alert">
-                    {status.message}
+            ) : (
+              <form noValidate onSubmit={handleSubmit}>
+                {bannerError ? (
+                  <p
+                    role="alert"
+                    className="mb-6 font-sans text-[0.875rem] leading-snug text-[#8b4049]"
+                  >
+                    {bannerError}
                   </p>
                 ) : null}
-              </div>
-            </div>
-          </motion.form>
+
+                <div
+                  className="pointer-events-none absolute -left-[9999px] top-0 h-px w-px overflow-hidden opacity-0"
+                  aria-hidden="true"
+                >
+                  <label htmlFor="contact-company-website">Company website</label>
+                  <input
+                    id="contact-company-website"
+                    name="company_website"
+                    type="text"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    autoCorrect="off"
+                    autoCapitalize="off"
+                    spellCheck={false}
+                    defaultValue=""
+                  />
+                </div>
+
+                <div className="flex flex-col gap-8">
+                  <div>
+                    <label htmlFor="contact-name" className={labelClass}>
+                      {form.nameLabel}
+                    </label>
+                    <input
+                      id="contact-name"
+                      name="name"
+                      type="text"
+                      required
+                      minLength={2}
+                      maxLength={120}
+                      autoComplete="name"
+                      className={fieldClass}
+                      placeholder=" "
+                      disabled={disabled}
+                      aria-invalid={Boolean(fieldErrors.name)}
+                      aria-describedby={
+                        fieldErrors.name ? "contact-name-error" : undefined
+                      }
+                      onChange={() => clearFieldError("name")}
+                    />
+                    {fieldErrors.name ? (
+                      <p id="contact-name-error" className={fieldErrorClass}>
+                        {fieldErrors.name}
+                      </p>
+                    ) : null}
+                  </div>
+                  <div>
+                    <label htmlFor="contact-email" className={labelClass}>
+                      {form.emailLabel}
+                    </label>
+                    <input
+                      id="contact-email"
+                      name="email"
+                      type="email"
+                      required
+                      maxLength={254}
+                      autoComplete="email"
+                      className={fieldClass}
+                      placeholder=" "
+                      disabled={disabled}
+                      aria-invalid={Boolean(fieldErrors.email)}
+                      aria-describedby={
+                        fieldErrors.email ? "contact-email-error" : undefined
+                      }
+                      onChange={() => clearFieldError("email")}
+                    />
+                    {fieldErrors.email ? (
+                      <p id="contact-email-error" className={fieldErrorClass}>
+                        {fieldErrors.email}
+                      </p>
+                    ) : null}
+                  </div>
+                  <div>
+                    <label htmlFor="contact-message" className={labelClass}>
+                      {form.messageLabel}
+                    </label>
+                    <textarea
+                      id="contact-message"
+                      name="message"
+                      rows={5}
+                      required
+                      minLength={3}
+                      maxLength={8000}
+                      className={`${fieldClass} resize-y min-h-[7.5rem]`}
+                      placeholder=" "
+                      disabled={disabled}
+                      aria-invalid={Boolean(fieldErrors.message)}
+                      aria-describedby={
+                        fieldErrors.message
+                          ? "contact-message-error"
+                          : undefined
+                      }
+                      onChange={() => clearFieldError("message")}
+                    />
+                    {fieldErrors.message ? (
+                      <p id="contact-message-error" className={fieldErrorClass}>
+                        {fieldErrors.message}
+                      </p>
+                    ) : null}
+                  </div>
+
+                  {!turnstileSiteKey ? (
+                    <p className="font-sans text-[0.875rem] text-[#707070]">
+                      {form.configMissing}
+                    </p>
+                  ) : (
+                    <Turnstile
+                      ref={turnstileRef}
+                      siteKey={turnstileSiteKey}
+                      options={{
+                        theme: "light",
+                        size: "flexible",
+                      }}
+                      onExpire={() => turnstileRef.current?.reset()}
+                    />
+                  )}
+
+                  <div className="pt-2">
+                    <button
+                      type="submit"
+                      disabled={disabled}
+                      className="inline-flex min-h-[2.75rem] cursor-pointer items-center justify-center bg-sage px-8 py-2 font-sans text-[0.875rem] font-normal uppercase tracking-[0.16em] text-[#F9F7EF] transition-[background-color,opacity] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:bg-[#6f7d6a] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#3D473B] disabled:cursor-not-allowed disabled:opacity-60"
+                    >
+                      {status === "loading"
+                        ? form.submittingLabel
+                        : form.submitLabel}
+                    </button>
+                  </div>
+                </div>
+              </form>
+            )}
+          </motion.div>
 
           <motion.aside
             className="w-full max-w-xl min-[900px]:max-w-none"
