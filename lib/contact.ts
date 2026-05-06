@@ -20,5 +20,13 @@ export const contactContent = {
     emailLabel: "Email",
     messageLabel: "Tell me about your project",
     submitLabel: "Send message",
+    submittingLabel: "Sending…",
+    successMessage:
+      "Thanks — your message was sent. I’ll get back to you soon.",
+    errorGeneric:
+      "Something went wrong. Please try again or use the email link beside the form.",
+    verificationNeeded: "Please complete the verification challenge.",
+    configMissing:
+      "The contact form isn’t configured on this environment yet.",
   },
 };
