@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+Sitemap: https://mariasdesignstudio.ca/sitemap.xml
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
