@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import "./globals.css";
 
 const siteUrl = "https://mariasdesignstudio.ca";
@@ -123,6 +122,20 @@ export default function RootLayout({
           type="font/ttf"
           crossOrigin="anonymous"
         />
+        <script
+          async
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '${GA_MEASUREMENT_ID}');
+`.trim(),
+          }}
+        />
         <meta property="og:title" content={siteTitle} />
         <meta property="og:description" content={metaDescription} />
         <meta property="og:image" content={ogImageUrl} />
@@ -138,21 +151,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-full font-sans text-ink">
-        {children}
-        <Script
-          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
-          strategy="afterInteractive"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', '${GA_MEASUREMENT_ID}');
-          `}
-        </Script>
-      </body>
+      <body className="min-h-full font-sans text-ink">{children}</body>
     </html>
   );
 }
