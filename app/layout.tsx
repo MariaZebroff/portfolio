@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import "./globals.css";
 
 const siteUrl = "https://mariasdesignstudio.ca";
+
+const GA_MEASUREMENT_ID = "G-4CLS5EWR1Y";
 
 const siteTitle =
   "Maria's Design Studio — Freelance Web Designer & Developer | Okanagan, BC";
@@ -135,7 +138,21 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-full font-sans text-ink">{children}</body>
+      <body className="min-h-full font-sans text-ink">
+        {children}
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${GA_MEASUREMENT_ID}');
+          `}
+        </Script>
+      </body>
     </html>
   );
 }
