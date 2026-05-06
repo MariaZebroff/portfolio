@@ -99,6 +99,27 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full scroll-smooth antialiased">
       <head>
+        <link
+          rel="preload"
+          href="/fonts/Poppins-Light.ttf"
+          as="font"
+          type="font/ttf"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/fonts/Poppins-Regular.ttf"
+          as="font"
+          type="font/ttf"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preload"
+          href="/fonts/Newsreader-VariableFont_opsz,wght.ttf"
+          as="font"
+          type="font/ttf"
+          crossOrigin="anonymous"
+        />
         <meta property="og:title" content={siteTitle} />
         <meta property="og:description" content={metaDescription} />
         <meta property="og:image" content={ogImageUrl} />
