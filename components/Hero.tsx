@@ -5,9 +5,12 @@ import { heroContent } from "@/lib/hero";
 import { heroCardRem } from "@/lib/heroCardLayout";
 import { heroImageClipPathD } from "@/lib/heroClip";
 
+/** Matches Nav: `max-w-7xl` + horizontal padding (logo / menu gutter). */
+const heroCardNavAlignLeft =
+  "md:left-[max(2rem,calc((100vw-min(100vw,80rem))/2+2rem))] lg:left-[max(2.5rem,calc((100vw-min(100vw,80rem))/2+2.5rem))]";
+
 const heroCardInlineVars = {
   "--hero-card-w-max": heroCardRem.w,
-  "--hero-card-left-max": heroCardRem.left,
   "--hero-card-top-max": heroCardRem.top,
 } as CSSProperties;
 
@@ -62,9 +65,8 @@ export function Hero() {
         <div
           className={[
             "absolute z-10 inset-x-0 top-[6.25rem]",
-            "md:inset-x-auto md:block md:w-auto",
-            "md:left-[min(var(--hero-card-left-max),calc(100vw*140/1140))]",
-            "md:right-auto",
+            "md:inset-x-auto md:block md:w-auto md:right-auto",
+            heroCardNavAlignLeft,
             "md:top-[min(var(--hero-card-top-max),calc(100vh*240/1024))]",
           ].join(" ")}
           style={heroCardInlineVars}
