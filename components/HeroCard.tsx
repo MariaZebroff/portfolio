@@ -81,7 +81,7 @@ export function HeroCard({
           type="button"
           onClick={handleScrollToNextSection}
           aria-label="Scroll to next section"
-          className="animate-hero-sink mx-auto flex h-9 w-9 items-center justify-center rounded-full border border-white/60 bg-white/0 text-[#707070] shadow-[0_8px_24px_rgba(34,34,34,0.14)] transition-opacity hover:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#707070] md:h-10 md:w-10"
+          className="animate-hero-sink mx-auto flex h-9 w-9 cursor-pointer items-center justify-center rounded-full border border-white/60 bg-white/0 text-[#707070] shadow-[0_8px_24px_rgba(34,34,34,0.14)] transition-opacity hover:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#707070] md:h-10 md:w-10"
         >
           <svg
             className="h-4 w-4 md:h-[1.125rem] md:w-[1.125rem]"
