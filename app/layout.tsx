@@ -14,7 +14,7 @@ const metaDescription =
 const ogImageAlt =
   "Maria's Design Studio — freelance web design & development, Okanagan BC";
 
-const ogImageUrl = `${siteUrl}/images/hero.png`;
+const ogImageUrl = `${siteUrl}/images/hero-old.png`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
