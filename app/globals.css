@@ -78,6 +78,26 @@ body {
 }
 
 @layer utilities {
+  @keyframes hero-sink {
+    0%,
+    100% {
+      transform: translateY(-6px);
+    }
+    50% {
+      transform: translateY(6px);
+    }
+  }
+
+  .animate-hero-sink {
+    animation: hero-sink 1.7s ease-in-out infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-hero-sink {
+      animation: none;
+    }
+  }
+
   .nav-link-underline {
     @apply relative pb-0.5;
   }

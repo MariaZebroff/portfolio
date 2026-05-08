@@ -18,10 +18,15 @@ export function HeroCard({
   primaryCta,
   secondaryCta,
 }: HeroCardProps) {
+  const handleScrollToNextSection = () => {
+    const nextSection = document.getElementById("about");
+    nextSection?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
   return (
     <motion.div
       className={[
-        "mx-auto box-border h-auto max-w-[min(var(--hero-card-w-max),calc(100%-1.5rem))]",
+        "relative mx-auto box-border h-auto max-w-[min(var(--hero-card-w-max),calc(100%-1.5rem))]",
         "w-[calc(100%-2rem)]",
         "max-md:min-[668px]:w-[min(var(--hero-card-w-max),max(18.75rem,calc((100%*444)/1140),calc(100%-2rem)))]",
         "md:mx-0",
@@ -68,6 +73,31 @@ export function HeroCard({
             />
           </Link>
         </div>
+      </div>
+      <div
+        className="pointer-events-auto absolute inset-x-0 top-full z-20 -translate-y-1/2"
+      >
+        <button
+          type="button"
+          onClick={handleScrollToNextSection}
+          aria-label="Scroll to next section"
+          className="animate-hero-sink mx-auto flex h-9 w-9 items-center justify-center rounded-full border border-white/60 bg-white/0 text-[#707070] shadow-[0_8px_24px_rgba(34,34,34,0.14)] transition-opacity hover:opacity-80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#707070] md:h-10 md:w-10"
+        >
+          <svg
+            className="h-4 w-4 md:h-[1.125rem] md:w-[1.125rem]"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M6 9L12 15L18 9"
+              stroke="currentColor"
+              strokeWidth="1.75"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
       </div>
     </motion.div>
   );
