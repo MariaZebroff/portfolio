@@ -14,7 +14,7 @@ export const heroContent = {
     href: "/#contact",
   },
   image: {
-    src: "/images/hero15-optimized.webp",
+    src: "/images/hero-old.png",
     alt: "Mountain valley landscape at sunrise — Vernon, BC area",
   },
 };
