@@ -3,6 +3,7 @@
 import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 import { motion } from "framer-motion";
 import { useCallback, useRef, useState } from "react";
+import { trackFormSubmit } from "@/lib/analytics";
 import { contactContent } from "@/lib/contact";
 import {
   type ContactFieldErrors,
@@ -129,6 +130,7 @@ export function Contact() {
           return;
         }
 
+        trackFormSubmit();
         setStatus("success");
         formEl.reset();
         turnstileRef.current?.reset();
