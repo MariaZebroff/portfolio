@@ -40,21 +40,21 @@ export function HeroCard({
         ease: [0.22, 1, 0.36, 1],
       }}
     >
-      <div className="flex flex-col overflow-x-hidden bg-white px-6 py-8 shadow-[0_24px_48px_-24px_rgba(26,26,24,0.18)] box-border md:px-10 md:py-10">
+      <div className="hero-card-panel flex flex-col overflow-x-hidden bg-white px-6 py-8 shadow-[0_24px_48px_-24px_rgba(26,26,24,0.18)] box-border md:px-10 md:py-10">
         <h1
           id="hero-heading"
-          className="font-serif text-[clamp(1.6875rem,3.8vw+1.125rem,2.625rem)] font-light leading-[clamp(2.125rem,3.8vw+1.35rem,2.8125rem)] tracking-[0.02em] text-[#343434] [overflow-wrap:anywhere]"
+          className="hero-card-heading font-serif text-[clamp(1.6875rem,3.8vw+1.125rem,2.625rem)] font-light leading-[clamp(2.125rem,3.8vw+1.35rem,2.8125rem)] tracking-[0.02em] text-[#343434] [overflow-wrap:anywhere]"
         >
           {headlineLead}
           <span className="text-sage">{headlineAccent}</span>
         </h1>
-        <p className="mt-[3.125rem] font-sans text-[1rem] font-normal leading-normal tracking-[0.02em] text-[#707070]">
+        <p className="hero-card-gap-heading-body mt-[3.125rem] font-sans text-[1rem] font-normal leading-normal tracking-[0.02em] text-[#707070]">
           {body}
         </p>
-        <div className="flex flex-col items-center gap-0">
+        <div className="hero-card-cta-stack flex flex-col items-center gap-0">
           <Link
             href={primaryCta.href}
-            className="relative inline-block mt-[4.125rem] pb-3 text-center font-sans text-[1rem] font-light uppercase tracking-[0.16em] text-[#707070] transition-opacity hover:opacity-80"
+            className="hero-card-cta-link hero-card-gap-body-cta relative inline-block mt-[4.125rem] pb-3 text-center font-sans text-[1rem] font-light uppercase tracking-[0.16em] text-[#707070] transition-opacity hover:opacity-80"
           >
             {primaryCta.label}
             <span
@@ -64,7 +64,7 @@ export function HeroCard({
           </Link>
           <Link
             href={secondaryCta.href}
-            className="relative inline-block mt-[1.25rem] pb-3 text-center font-sans text-[1rem] font-light uppercase tracking-[0.16em] text-[#707070] transition-opacity hover:opacity-80"
+            className="hero-card-cta-link hero-card-gap-cta relative inline-block mt-[1.25rem] pb-3 text-center font-sans text-[1rem] font-light uppercase tracking-[0.16em] text-[#707070] transition-opacity hover:opacity-80"
           >
             {secondaryCta.label}
             <span
@@ -75,7 +75,7 @@ export function HeroCard({
         </div>
       </div>
       <div
-        className="pointer-events-auto absolute inset-x-0 top-full z-20 -translate-y-1/2"
+        className="hero-card-scroll-arrow pointer-events-auto absolute inset-x-0 top-full z-20 -translate-y-1/2"
       >
         <button
           type="button"

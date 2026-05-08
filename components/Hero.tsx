@@ -65,19 +65,27 @@ export function Hero() {
         <div
           className={[
             "absolute z-10 inset-x-0 top-[6.25rem]",
+            "max-[767px]:[@media(max-height:720px)]:top-[max(4rem,min(5rem,calc(100dvh*0.08)))]",
             "md:inset-x-auto md:block md:w-auto md:right-auto",
             heroCardNavAlignLeft,
             "md:top-[min(var(--hero-card-top-max),calc(100vh*240/1024))]",
+            /* Short heights: sit lower so the white card overlaps the clipped hero shape */
+            "md:[@media(max-height:840px)]:top-[max(1rem,min(6.25rem,calc(100dvh*0.145)))]",
+            "md:[@media(max-height:680px)]:top-[max(1rem,min(5rem,calc(100dvh*0.095)))]",
+            "md:[@media(max-height:840px)]:translate-y-[min(1rem,calc(100dvh*0.028))]",
+            "md:[@media(max-height:680px)]:translate-y-[min(0.875rem,calc(100dvh*0.022))]",
           ].join(" ")}
           style={heroCardInlineVars}
         >
-          <HeroCard
-            headlineLead={headlineLead}
-            headlineAccent={headlineAccent}
-            body={body}
-            primaryCta={primaryCta}
-            secondaryCta={secondaryCta}
-          />
+          <div className="hero-card-short-vp-wrap">
+            <HeroCard
+              headlineLead={headlineLead}
+              headlineAccent={headlineAccent}
+              body={body}
+              primaryCta={primaryCta}
+              secondaryCta={secondaryCta}
+            />
+          </div>
         </div>
       </div>
     </section>

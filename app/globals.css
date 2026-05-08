@@ -111,4 +111,152 @@ body {
   .nav-link-underline:hover::after {
     @apply scale-x-100;
   }
+
+  /*
+   * Hero white card on short desktop heights (e.g. 1024×600): scale + compact
+   * rhythm so CTAs stay in view. Wrap matches md+; mobile keeps centered layout.
+   */
+  @media (min-width: 768px) and (max-height: 840px) {
+    .hero-card-short-vp-wrap {
+      transform-origin: top left;
+      /* Smaller denominator = larger scale on short screens only — taller card, still capped by min(1,…) */
+      transform: translateY(0.375rem)
+        scale(min(1, calc((100dvh - 11.5rem) / 31rem)));
+    }
+
+    /* Keep arrow visible: smaller + less upward overlap than default -translate-y-1/2 */
+    .hero-card-short-vp-wrap .hero-card-scroll-arrow {
+      transform: translateY(-28%) !important;
+    }
+
+    .hero-card-short-vp-wrap .hero-card-scroll-arrow button {
+      height: 2rem;
+      width: 2rem;
+    }
+
+    .hero-card-short-vp-wrap .hero-card-scroll-arrow button svg {
+      height: 0.875rem;
+      width: 0.875rem;
+    }
+
+    .hero-card-short-vp-wrap .hero-card-panel {
+      padding-block: 1.5rem;
+      padding-inline: 1.625rem;
+      /* Minimum vertical footprint on squat viewports (short-height breakpoints only) */
+      min-height: clamp(21rem, 46dvh, 29rem);
+    }
+
+    .hero-card-short-vp-wrap .hero-card-cta-link {
+      padding-bottom: 0.625rem;
+    }
+
+    .hero-card-short-vp-wrap .hero-card-heading {
+      font-size: clamp(1.375rem, 2vw + 0.9rem, 2rem);
+      line-height: 1.26;
+    }
+
+    .hero-card-short-vp-wrap .hero-card-panel > p {
+      font-size: 0.96875rem;
+      line-height: 1.55;
+    }
+  }
+
+  /* Shorter laptop heights — a bit more scale-down only when needed */
+  @media (min-width: 768px) and (max-height: 680px) {
+    .hero-card-short-vp-wrap {
+      transform: translateY(0.25rem)
+        scale(min(1, calc((100dvh - 11.25rem) / 28.5rem)));
+    }
+
+    .hero-card-short-vp-wrap .hero-card-panel {
+      min-height: clamp(19.5rem, 44dvh, 27rem);
+      padding-block: 1.375rem;
+    }
+
+    .hero-card-short-vp-wrap .hero-card-scroll-arrow {
+      transform: translateY(-18%) !important;
+    }
+
+    .hero-card-short-vp-wrap .hero-card-scroll-arrow button {
+      height: 1.875rem;
+      width: 1.875rem;
+    }
+  }
+
+  /* Phone landscape / small tablets */
+  @media (max-width: 767px) and (max-height: 720px) {
+    .hero-card-short-vp-wrap {
+      transform-origin: top center;
+      transform: translateY(0.375rem)
+        scale(min(1, calc((100dvh - 10rem) / 29rem)));
+    }
+
+    .hero-card-short-vp-wrap .hero-card-scroll-arrow {
+      transform: translateY(-28%) !important;
+    }
+
+    .hero-card-short-vp-wrap .hero-card-scroll-arrow button {
+      height: 2rem;
+      width: 2rem;
+    }
+
+    .hero-card-short-vp-wrap .hero-card-scroll-arrow button svg {
+      height: 0.875rem;
+      width: 0.875rem;
+    }
+
+    .hero-card-short-vp-wrap .hero-card-panel {
+      padding-block: 1.5rem;
+      padding-inline: 1.375rem;
+      min-height: clamp(20rem, 60dvh, 48rem);
+    }
+
+    .hero-card-short-vp-wrap .hero-card-cta-link {
+      padding-bottom: 0.625rem;
+    }
+
+    .hero-card-short-vp-wrap .hero-card-heading {
+      font-size: clamp(1.3125rem, 4vw + 0.75rem, 1.875rem);
+      line-height: 1.26;
+    }
+
+    .hero-card-short-vp-wrap .hero-card-panel > p {
+      font-size: 0.96875rem;
+      line-height: 1.55;
+    }
+  }
+
+  /* Narrow portrait phones (e.g. 375×667) — taller card; skips landscape */
+  @media (max-width: 430px) and (max-height: 740px) and (orientation: portrait) {
+    .hero-card-short-vp-wrap {
+      transform-origin: top center;
+      transform: translateY(0.25rem)
+        scale(min(1, calc((100dvh - 9.75rem) / 26.5rem)));
+    }
+
+    .hero-card-short-vp-wrap .hero-card-panel {
+      padding-block: 1.75rem;
+      padding-inline: 1.5rem;
+      min-height: clamp(24.5rem, 56dvh, 34rem);
+    }
+  }
+
+  /* Short viewports: distribute headline, body, CTAs evenly inside min-height panel */
+  @media (min-width: 768px) and (max-height: 840px),
+    (max-width: 767px) and (max-height: 720px),
+    (max-width: 430px) and (max-height: 740px) and (orientation: portrait) {
+    .hero-card-short-vp-wrap .hero-card-panel {
+      justify-content: space-evenly;
+    }
+
+    .hero-card-short-vp-wrap .hero-card-gap-heading-body,
+    .hero-card-short-vp-wrap .hero-card-gap-body-cta,
+    .hero-card-short-vp-wrap .hero-card-gap-cta {
+      margin-top: 0;
+    }
+
+    .hero-card-short-vp-wrap .hero-card-cta-stack {
+      gap: 0.75rem !important;
+    }
+  }
 }
