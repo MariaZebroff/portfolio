@@ -1,10 +1,11 @@
 export const aboutContent = {
   image: {
-    src: "/images/placeholder.png",
+    src: "/images/AboutPicture.jpg",
     alt: "Portrait — Marian, front-end developer based in Vernon, BC",
-    /** Intrinsic dimensions — update when replacing placeholder asset */
-    width: 800,
-    height: 1000,
+    width: 768,
+    height: 1365,
+    /** Pixels trimmed from the top of the frame (full file dimensions stay on `Image` for quality). */
+    cropTopPx: 300,
   },
   /** Italic serif lead — Newsreader Light Italic; accent segment uses sage #81917D */
   lead: {
