@@ -35,10 +35,10 @@ export const workContent = {
     {
       id: "beauty-hub",
       number: "01",
-      title: "Beaty Hub - Vernon, B.C.",
+      title: "Beauty Hub - Vernon, B.C.",
       image: {
         src: "/images/BeautyHub-project.png",
-        alt: "Beaty Hub project screenshot",
+        alt: "Beauty Hub project screenshot",
         width: 1600,
         height: 1000,
       },
@@ -54,10 +54,10 @@ export const workContent = {
     {
       id: "beauty-you",
       number: "02",
-      title: "Beaty You - Vernon, B.C.",
+      title: "Beauty You - Vernon, B.C.",
       image: {
         src: "/images/BeutyYou-project.png",
-        alt: "Beaty You project screenshot",
+        alt: "Beauty You project screenshot",
         width: 1600,
         height: 1000,
       },
