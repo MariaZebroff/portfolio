@@ -56,7 +56,7 @@ export const workContent = {
       number: "02",
       title: "Beauty You - Vernon, B.C.",
       image: {
-        src: "/images/BeutyYou-project.png",
+        src: "/images/BeautyYou-project.png",
         alt: "Beauty You project screenshot",
         width: 1600,
         height: 1000,
