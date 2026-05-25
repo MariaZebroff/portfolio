@@ -45,7 +45,7 @@ export const workContent = {
       description:
         "Every salon is different — so this website was built to fit exactly how this team works. A fully custom WordPress theme with a purpose-built Gutenberg block, blog, and team section. Staff log in with their own simplified dashboard, while the owner keeps full control. And when it's time to start selling online, the groundwork is already there.",
       link: {
-        label: "VIZIT WEBSITE",
+        label: "VISIT WEBSITE",
         href: "https://beautyhubca.com/",
         iconSrc: "/images/Arrow.svg",
         iconAlt: "",
@@ -64,7 +64,7 @@ export const workContent = {
       description:
         "Designed and developed a full custom WordPress website for an independent beauty stylist in Vernon, BC. Built a unique theme from scratch using Bootstrap, with Advanced Custom Fields for easy content management and custom JavaScript for an elevated user experience.",
       link: {
-        label: "VIZIT WEBSITE",
+        label: "VISIT WEBSITE",
         href: "https://beautyyou.ca/",
         iconSrc: "/images/Arrow.svg",
         iconAlt: "",
@@ -96,7 +96,7 @@ export const workContent = {
       description:
         "Not every project starts at the beginning — and this one was already in motion when I joined the team. Working on UBC's Footprints in Time interactive exhibit, I picked up an existing codebase and helped bring it across the finish line. The work included panoramic views, 3D JavaScript interactions, and a strong focus on accessibility — making sure the experience worked beautifully for every visitor, including those using screen readers and assistive technologies.",
       link: {
-        label: "VIZIT WEBSITE",
+        label: "VISIT WEBSITE",
         href: "https://footprintsintime.ca/",
         iconSrc: "/images/Arrow.svg",
         iconAlt: "",
